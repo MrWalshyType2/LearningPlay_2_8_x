@@ -10,7 +10,8 @@ import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Reque
 import scala.collection.mutable.ArrayBuffer
 
 // Case class to define the form elements (not limited to using case classes in forms)
-case class Customer(name: String, age: Int)
+case class Customer(name: String, age: Option[Int], address: CustomerAddress)
+case class CustomerAddress(street: String, city: String)
 
 object Customer {
 
@@ -18,14 +19,18 @@ object Customer {
   val createCustomerForm = Form(
     mapping(
       "name" -> nonEmptyText,
-      "age" -> number(min = 0, max = 140) // Min/max constraint
+      "age" -> optional(number(min = 0, max = 140)), // Min/max constraint with optional supplying of age
+      "address" -> mapping( // nested values
+        "street" -> text,
+        "city" -> text
+      )(CustomerAddress.apply)(CustomerAddress.unapply)
     )(Customer.apply)(Customer.unapply)
   )
 
   // Dummy data
   val customers = ArrayBuffer(
-    Customer("Fred", 22),
-    Customer("Bobby", 33)
+    Customer("Fred", Option(22), CustomerAddress("Hola street", "Burger city")),
+    Customer("Bobby", Option(33), CustomerAddress("Hola street", "Burger city"))
   )
 }
 

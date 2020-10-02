@@ -8,6 +8,8 @@
         @CSRF.formField
         @inputText(customerForm("name"), Symbol("id") -> "SomeId", Symbol("class") -> "SomeClass")
         @inputText(customerForm("age"))
+        @inputText(customerForm("address.street"))
+        @inputText(customerForm("address.city"))
         <button type="submit">Create</button>
     }
 
@@ -15,5 +17,7 @@
 
     @for(customer <- customers){
         <p>NAME: @customer.name, AGE: @customer.age</p>
+        <p>STREET: @customer.address.street, CITY: @customer.address.city</p>
+        <br/>
     }
 }
