@@ -8,6 +8,23 @@ GET     /                           controllers.HomeController.index
 
 GET     /name                       controllers.ExampleController.displayName(name: String)
 GET     /redirect/index             controllers.ExampleController.indexPage
+GET     /home                       controllers.ExampleController.home
+GET     /plannedUpdate              controllers.ExampleController.plannedUpdate
+GET     /about                      controllers.ExampleController.about
+GET     /cookie                     controllers.ExampleController.cookieMonster
+GET     /no/cookie                  controllers.ExampleController.noMoreCookie
+
+GET     /welcome                    controllers.SessionFlashController.basicSession
+
+GET     /names                      controllers.ContentNegotiationController.listOfNames
+
+GET     /async                      controllers.AsyncController.asyncResult
+
+GET     /customers                  controllers.FormController.listCustomers
+POST    /customers/create           controllers.FormController.createCustomer
+
+# Play has a default controller with useful actions that can be invoked directly from this file
+GET     /default/about              controllers.Default.notFound
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

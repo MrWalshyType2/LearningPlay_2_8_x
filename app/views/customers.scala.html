@@ -1,0 +1,19 @@
+@import scala.collection.mutable.ArrayBuffer
+@import helper._
+@(customers: ArrayBuffer[Customer], customerForm: Form[Customer])(implicit request: RequestHeader, messages: Messages)
+
+@main("customers") {
+
+    @form(routes.FormController.createCustomer) {
+        @CSRF.formField
+        @inputText(customerForm("name"), Symbol("id") -> "SomeId", Symbol("class") -> "SomeClass")
+        @inputText(customerForm("age"))
+        <button type="submit">Create</button>
+    }
+
+    <h1>Customers</h1>
+
+    @for(customer <- customers){
+        <p>NAME: @customer.name, AGE: @customer.age</p>
+    }
+}

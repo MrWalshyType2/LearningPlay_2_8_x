@@ -1,0 +1,8 @@
+@(nameList: Seq[Tuple2[String, String]])
+
+@main("Names") {
+    @for(name <- nameList){
+        <h1>@name._1</h1>
+        <h1>@name._2</h1>
+    }
+}
