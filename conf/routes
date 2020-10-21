@@ -19,6 +19,7 @@ GET     /welcome                    controllers.SessionFlashController.basicSess
 GET     /names                      controllers.ContentNegotiationController.listOfNames
 
 GET     /async                      controllers.AsyncController.asyncResult
+GET     /async/2                    controllers.AsyncController.asyncResult2
 
 GET     /customers                  controllers.FormController.listCustomers
 POST    /customers/create           controllers.FormController.createCustomer

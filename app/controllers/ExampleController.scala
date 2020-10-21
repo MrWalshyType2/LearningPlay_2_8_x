@@ -3,6 +3,7 @@ package controllers
 import akka.util.ByteString
 import javax.inject.{Inject, Singleton}
 import play.api.http.HttpEntity
+import play.api.libs.json.JsValue
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, Cookie, DiscardingCookie, Request, ResponseHeader, Result}
 import play.api.mvc.Results.Ok
 import play.mvc.Controller
@@ -46,6 +47,31 @@ class ExampleController @Inject() (cc: ControllerComponents) extends AbstractCon
   // Use TODO for a 'Not implement yet' result page
   def about = TODO
 
+  // Most web apps do not need custom body parsers, Play has built-in parsers.
+  //  - Play does this by looking at the incoming Content-Type header
+  //  - default parsers produce a body of type AnyContent
+  def save = Action { implicit request: Request[AnyContent] =>
+    val body: AnyContent = request.body
+    val jsonBody: Option[JsValue] = body.asJson;
+
+    // Expecting a JSON body
+    jsonBody.map { json =>
+      Ok("Got:" + (json).as[String])
+    }.getOrElse {
+      BadRequest("Expecting application/json req body")
+    }
+  }
+
+  // Pass a body parser to the Action apply or async method for a different parser
+  //  - available through BodyParsers.parse object from Controller
+  def save2 = Action(parse.json) { implicit request: Request[JsValue] =>
+    Ok("Got:" + (request.body).as[String])
+  }
+
+  // The tolerantJson parser will try to ignore the Content-Type and parse the request body as JSON regardless
+  def save3 = Action(parse.tolerantJson) { implicit request: Request[JsValue] =>
+    Ok("Got:" + (request.body).as[String])
+  }
 
   // Play has helpers for creating common results (find the helpers in 'play.api.mvc.Results' trait and companion obj
   val okStatus = new Status(OK)
